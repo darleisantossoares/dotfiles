@@ -1,0 +1,53 @@
+set tabstop=4 softtabstop=4
+set shiftwidth=4
+set expandtab
+set smartindent
+set belloff=all
+
+set exrc
+set nu
+set hidden
+set noerrorbells
+set nowrap "deixa a linha atraves a tela
+
+set noswapfile
+set nobackup
+set undodir=~/.vim/undodir
+set undofile
+
+set incsearch
+set scrolloff=8
+
+set signcolumn=yes
+
+set bg=dark
+
+" Plugin by plug manager
+call plug#begin('~/.vim/plugged')
+Plug 'rhysd/vim-healthcheck'
+Plug 'gruvbox-community/gruvbox'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+call plug#end()
+
+colorscheme gruvbox
+
+let mapleader=" "
+"here goes all my remaps nnoremap...
+" nnoremap <leader>ff <cmd>Telescope find_files<cr>
+" nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+" nnoremap <leader>fb <cmd>Telescope buffers<cr>
+" nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+endfun
+
+augroup DARLEI_SOARES
+    autocmd!
+    autocmd BufWritePre * :call TrimWhitespace()
+augroup END
+
