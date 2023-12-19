@@ -33,6 +33,42 @@
 	  (define-key paredit-mode-map (kbd "C-c M-<") 'paredit-backward-barf-sexp))
 (add-hook 'paredit-mode-hook 'setup-paredit-shortcuts)
 
+
+(use-package lsp-mode
+	       :ensure t
+	         :init
+		   (setq lsp-enable-indentation nil) ;; if you have another preferred formatting tool
+		     (setq lsp-enable-snippet nil)     ;; if you don't have yasnippet installed
+		       :hook (clojure-mode . lsp)
+		         :commands lsp)
+
+(use-package lsp-ui
+	       :commands lsp-ui-mode)
+
+(use-package lsp-mode
+	       :ensure t
+	         :commands (lsp lsp-deferred)
+		   :hook (clojure-mode . lsp)
+		     :config
+		       ;; add more LSP configurations here, if needed
+		       )
+
+(use-package clojure-mode
+	       :ensure t
+	         :after lsp-mode)
+
+
+(use-package company
+	       :ensure t
+	         :config
+		   (global-company-mode))
+
+
+;; go to reference
+(define-key clojure-mode-map (kbd "C-c r") 'lsp-find-references)
+(define-key clojure-mode-map (kbd "C-c d") 'lsp-find-definition)
+
+
 ;; Evil Mode
 (use-package evil
 	       :ensure t
@@ -46,6 +82,7 @@
 (setq inhibit-startup-message t)
 (setq initial-scratch-message nil)
 (setq warning-minimum-level :emergency)
+
 
 ;; Projectile
 (use-package projectile
@@ -76,7 +113,11 @@
 	         :after clojure-mode)
 
 ;; Set default font and size
-(set-face-attribute 'default nil :font "Monospace" :height 200)
+(set-face-attribute 'default nil :font "Monospace" :height 220)
+
+(add-hook 'window-setup-hook
+	            (lambda () (set-face-attribute 'default nil :height 220)))
+
 
 ;; disable the annoying bell
 (setq visible-bell nil)
