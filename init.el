@@ -58,6 +58,12 @@
 (global-set-key (kbd "C-x <right>") 'next-buffer)
 (global-set-key (kbd "C-x <left>") 'previous-buffer)
 
+;; Split windows and close windows
+(global-set-key (kbd "C-x |") 'split-window-right)   ;; Split pane vertically
+(global-set-key (kbd "C-x -") 'split-window-below)  ;; Split pane horizontally
+(global-set-key (kbd "C-x 0") 'delete-window)       ;; Close current window
+(global-set-key (kbd "C-x 1") 'delete-other-windows) ;; Close other windows
+
 ;; Navigation between windows
 (global-set-key (kbd "C-w <left>") 'windmove-left)
 (global-set-key (kbd "C-w <right>") 'windmove-right)
@@ -75,6 +81,17 @@
 ;; disable the annoying bell
 (setq visible-bell nil)
 (setq ring-bell-function 'ignore)
+
+
+;; remove files when closing emacs
+(defun clean-emacs-temp-files-on-exit ()
+    "Delete all autosave and backup files on exit."
+      (let ((autosave-files (directory-files "~/.emacs.d/autosaves/" t "\\`#.*#\\'"))
+	            (backup-files (directory-files "~/" t "~$")))
+	    (mapc 'delete-file autosave-files)
+	        (mapc 'delete-file backup-files)))
+
+(add-hook 'kill-emacs-hook 'clean-emacs-temp-files-on-exit)
 
 
 
