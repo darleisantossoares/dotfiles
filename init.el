@@ -1,3 +1,98 @@
+{:paths ["src" "resources"]
+Last login: Mon Feb  5 23:55:19 on ttys005
+darlei.soares@darlei ~ % cd dev/me
+darlei.soares@darlei me % ls
+clojure-algorithms
+darlei.soares@darlei me %
+darlei.soares@darlei me % git clone git@github.com:darleisantossoares/clojure-sandbox.git
+Cloning into 'clojure-sandbox'...
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Receiving objects: 100% (3/3), done.
+darlei.soares@darlei me %
+darlei.soares@darlei me %
+pom.xml
+darlei.soares@darlei me %
+darlei.soares@darlei me %
+darlei.soares@darlei me % cd clojure-
+cd: no such file or directory: clojure-
+darlei.soares@darlei me % cd clojure-sandbox
+darlei.soares@darlei clojure-sandbox %
+darlei.soares@darlei clojure-sandbox %
+darlei.soares@darlei clojure-sandbox % ls
+darlei.soares@darlei clojure-sandbox %
+darlei.soares@darlei clojure-sandbox % touch deps.edn
+darlei.soares@darlei clojure-sandbox %
+darlei.soares@darlei clojure-sandbox %
+darlei.soares@darlei clojure-sandbox % mkdir src
+darlei.soares@darlei clojure-sandbox %
+darlei.soares@darlei clojure-sandbox %
+darlei.soares@darlei clojure-sandbox % vim deps.edn
+darlei.soares@darlei clojure-sandbox %
+darlei.soares@darlei clojure-sandbox %
+darlei.soares@darlei clojure-sandbox % cd src
+darlei.soares@darlei src % mkdir sandbox
+darlei.soares@darlei src %
+darlei.soares@darlei src % cd sandbox
+darlei.soares@darlei sandbox %
+darlei.soares@darlei sandbox %
+darlei.soares@darlei sandbox % pwd
+/Users/darlei.soares/dev/me/clojure-sandbox/src/sandbox
+darlei.soares@darlei sandbox %
+darlei.soares@darlei sandbox %
+darlei.soares@darlei sandbox % gpwd
+/Users/darlei.soares/dev/me/clojure-sandbox/src/sandbox
+darlei.soares@darlei sandbox %
+darlei.soares@darlei sandbox % cd ../..
+darlei.soares@darlei clojure-sandbox %
+darlei.soares@darlei clojure-sandbox % ls
+deps.edn	src
+darlei.soares@darlei clojure-sandbox %
+darlei.soares@darlei clojure-sandbox %
+darlei.soares@darlei clojure-sandbox % git status
+On branch main
+pom.xml
+Your branch is up to date with 'origin/main'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.clj-kondo/
+	.lsp/
+	deps.edn
+	src/
+
+nothing added to commit but untracked files present (use "git add" to track)
+darlei.soares@darlei clojure-sandbox % touch .gitignore
+darlei.soares@darlei clojure-sandbox % vim .git
+darlei.soares@darlei clojure-sandbox % vim .gitignore
+darlei.soares@darlei clojure-sandbox %
+darlei.soares@darlei clojure-sandbox %
+darlei.soares@darlei clojure-sandbox % git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   .gitignore
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	deps.edn
+	src/
+
+no changes added to commit (use "git add" and/or "git commit -a")
+darlei.soares@darlei clojure-sandbox %
+darlei.soares@darlei clojure-sandbox % git add .
+darlei.soares@darlei clojure-sandbox % git commit -m "add gitignore"
+[main d77d2f3] add gitignore
+ 4 files changed, 10 insertions(+)
+ create mode 100644 deps.edn
+ create mode 100644 src/sandbox/clojure_core_fns.clj
+ create mode 100644 src/sandbox/clojure_core_fns.clj~
+darlei.soares@darlei clojure-sandbox % git push
 ;; Add MELPA repository for package installation
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -50,181 +145,4 @@
 
 (add-hook 'clojure-mode-hook 'lsp)
 (add-hook 'clojurescript-mode-hook 'lsp)
-(add-hook 'clojurec-mode-hook 'lsp)
-
-(setq gc-cons-threshold (* 100 1024 1024)
-      read-process-output-max (* 1024 1024)
-      treemacs-space-between-root-nodes nil
-      company-minimum-prefix-length 1
-      ; lsp-enable-indentation nil ; uncomment to use cider indentation instead of lsp
-      ; lsp-enable-completion-at-point nil ; uncomment to use cider completion instead of lsp
-      )
-
-
-;; Add Leiningen's path to Emacs' exec-path
-(add-to-list 'exec-path "/opt/homebrew/bin/lein")
-(setq cider-lein-command "/opt/homebrew/bin/lein")
-
-
-;; Use-package for easier package management
-(unless (package-installed-p 'use-package)
-      (package-install 'use-package))
-(require 'use-package)
-
-
-;; Clojure Mode
-(use-package clojure-mode
-  :ensure t)
-
-;; Paredit
-(use-package paredit
-  :ensure t
-  :hook (clojure-mode . paredit-mode))
-
-
-;; Custom paredit shortcuts
-(defun setup-paredit-shortcuts ()
-      (define-key paredit-mode-map (kbd "C-c >") 'paredit-forward-slurp-sexp)
-      (define-key paredit-mode-map (kbd "C-c <") 'paredit-forward-barf-sexp)
-      (define-key paredit-mode-map (kbd "C-c M->") 'paredit-backward-slurp-sexp)
-      (define-key paredit-mode-map (kbd "C-c M-<") 'paredit-backward-barf-sexp))
-(add-hook 'paredit-mode-hook 'setup-paredit-shortcuts)
-
-
-(use-package clojure-mode
-  :ensure t
-  :after lsp-mode)
-(use-package lsp-mode
-  :defer t
-  :config
-  (setq lsp-headerline-breadcrumb-enable nil)
-  :hook
-  ((lsp-mode . lsp-enable-which-key-integration)))
-(use-package lsp-ui
-  :defer t
-  :ensure t)
-(use-package elisp-format :ensure t)
-(use-package which-key
-  :ensure t
-  :config
-  (which-key-mode))
-(use-package auto-complete
-  :defer t
-  :ensure t
-  :config
-  (add-to-list 'ac-modes 'nrepl-mode))
-(use-package elisp-format :ensure t)
-
-
-
-;; go to reference
-(define-key clojure-mode-map (kbd "C-c r") 'lsp-find-references)
-(define-key clojure-mode-map (kbd "C-c d") 'lsp-find-definition)
-
-;; Open Emacs in maximized mode
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
-
-;; Suppress warnings and startup message
-(setq inhibit-startup-message t)
-(setq initial-scratch-message nil)
-(setq warning-minimum-level :emergency)
-
-
-;; Navigation between buffers
-(global-set-key (kbd "C-x <right>") 'next-buffer)
-(global-set-key (kbd "C-x <left>") 'previous-buffer)
-
-;; Split windows and close windows
-(global-set-key (kbd "C-x |") 'split-window-right)   ;; Split pane vertically
-(global-set-key (kbd "C-x -") 'split-window-below)  ;; Split pane horizontally
-(global-set-key (kbd "C-x 0") 'delete-window)       ;; Close current window
-(global-set-key (kbd "C-x 1") 'delete-other-windows) ;; Close other windows
-
-;; Navigation between windows
-(global-set-key (kbd "C-c <left>") 'windmove-left)
-(global-set-key (kbd "C-c <right>") 'windmove-right)
-(global-set-key (kbd "C-c <up>") 'windmove-up)
-(global-set-key (kbd "C-c <down>") 'windmove-down)
-
-
-(set-face-attribute 'default nil :height 140)
-
-
-
-;; clj-kondo integration
-(use-package flycheck-clj-kondo
-  :ensure t
-  :after clojure-mode)
-
-
-;; disable the annoying bell
-(setq visible-bell t)
-(setq ring-bell-function 'ignore)
-
-
-
-;; remove files when closing emacs
-(defun clean-emacs-temp-files-on-exit ()
-      "Delete all autosave and backup files on exit."
-      (let ((autosave-files (directory-files "~/.emacs.d/autosaves/" t "\\`#.*#\\'"))
-		  	            (backup-files (directory-files "~/" t "~$")))
-      (mapc 'delete-file autosave-files)
-      (mapc 'delete-file backup-files)))
-
-(add-hook 'kill-emacs-hook 'clean-emacs-temp-files-on-exit)
-
-
-;; LISP EDITING
-(use-package paredit
-  :diminish paredit-mode
-  :config
-  (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-  (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-  (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-  (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-  (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
-  :bind (("C-c d" . paredit-forward-down))
-  )
-
-;; Ensure paredit is used EVERYWHERE!
-(use-package paredit-everywhere
-  :diminish paredit-everywhere-mode
-  :config
-  (add-hook 'list-mode-hook #'paredit-everywhere-mode))
-
-
-;; Auto Completion
-(use-package company
-  :bind (("C-x /". company-complete))
-  :config
-  (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 3)
-  (global-company-mode)
-  (push 'company-files company-backends)
-
-
-(use-package lsp-mode
-  :ensure t
-  :hook ((clojure-mode . lsp)
-         (clojurec-mode . lsp)
-         (clojurescript-mode . lsp))
-  :config
-  ;; add paths to your local installation of project mgmt tools, like lein
-  (setenv "PATH" (concat
-                   "/usr/local/bin" path-separator
-                   (getenv "PATH")))
-  (dolist (m '(clojure-mode
-               clojurec-mode
-               clojurescript-mode
-               clojurex-mode))
-     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
-  (setq lsp-clojure-server-command '("/opt/homebrew/bin/clojure-lsp")))
-
-
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
-
-(use-package company
-  :ensure t)
+                                                                                                                                                                                                  47,15         Top
